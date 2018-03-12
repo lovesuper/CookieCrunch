@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  CookieCrunch
-//
-//  Created by Lovesuper on 07/03/2018.
-//  Copyright © 2018 Lovesuper. All rights reserved.
-//
-
 import UIKit
 
 @UIApplicationMain

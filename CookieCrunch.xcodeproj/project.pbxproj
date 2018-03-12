@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		67556464205675CD00EC0C79 /* Cookie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67556463205675CD00EC0C79 /* Cookie.swift */; };
+		675564662056885400EC0C79 /* Array2D.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675564652056885400EC0C79 /* Array2D.swift */; };
+		6755646820568C2B00EC0C79 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6755646720568C2B00EC0C79 /* Level.swift */; };
 		67E8F812204FF33C00BEEE36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E8F811204FF33C00BEEE36 /* AppDelegate.swift */; };
 		67E8F818204FF33C00BEEE36 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E8F817204FF33C00BEEE36 /* GameScene.swift */; };
 		67E8F81A204FF33C00BEEE36 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67E8F819204FF33C00BEEE36 /* GameViewController.swift */; };
@@ -17,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		67556463205675CD00EC0C79 /* Cookie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cookie.swift; sourceTree = "<group>"; };
+		675564652056885400EC0C79 /* Array2D.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array2D.swift; sourceTree = "<group>"; };
+		6755646720568C2B00EC0C79 /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		67E8F80E204FF33C00BEEE36 /* CookieCrunch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CookieCrunch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67E8F811204FF33C00BEEE36 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		67E8F817204FF33C00BEEE36 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -60,6 +66,9 @@
 			children = (
 				67E8F811204FF33C00BEEE36 /* AppDelegate.swift */,
 				67E8F817204FF33C00BEEE36 /* GameScene.swift */,
+				67556463205675CD00EC0C79 /* Cookie.swift */,
+				6755646720568C2B00EC0C79 /* Level.swift */,
+				675564652056885400EC0C79 /* Array2D.swift */,
 				67E8F829204FF3DA00BEEE36 /* Sprites.atlas */,
 				67E8F819204FF33C00BEEE36 /* GameViewController.swift */,
 				67E8F81B204FF33C00BEEE36 /* Main.storyboard */,
@@ -143,9 +152,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6755646820568C2B00EC0C79 /* Level.swift in Sources */,
 				67E8F818204FF33C00BEEE36 /* GameScene.swift in Sources */,
+				67556464205675CD00EC0C79 /* Cookie.swift in Sources */,
 				67E8F81A204FF33C00BEEE36 /* GameViewController.swift in Sources */,
 				67E8F812204FF33C00BEEE36 /* AppDelegate.swift in Sources */,
+				675564662056885400EC0C79 /* Array2D.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
