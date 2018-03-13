@@ -70,4 +70,76 @@ class GameScene: SKScene {
       x: CGFloat(column) * TileWidth + TileWidth / 2,
       y: CGFloat(row) * TileHeight + TileHeight / 2)
   }
+
+  func convertPoint(point: CGPoint) -> (success: Bool, column: Int, row: Int) {
+    if point.x >= 0 && point.x < CGFloat(NumColumns)*TileWidth &&
+      point.y >= 0 && point.y < CGFloat(NumRows)*TileHeight {
+      return (true, Int(point.x / TileWidth), Int(point.y / TileHeight))
+    } else {
+      return (false, 0, 0)
+    }
+  }
+
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    guard let touch = touches.first else { return }
+
+    let location = touch.location(in: cookiesLayer)
+    let (success, column, row) = convertPoint(point: location)
+
+    if success {
+      if let cookie = level.cookieAt(column: column, row: row) {
+        swipeFromColumn = column
+        swipeFromRow = row
+      }
+    }
+  }
+
+  override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    guard swipeFromColumn != nil else { return }
+    guard let touch = touches.first else { return }
+
+    let location = touch.location(in: cookiesLayer)
+    let (success, column, row) = convertPoint(point: location)
+    if success {
+
+      var horzDelta = 0, vertDelta = 0
+      if column < swipeFromColumn! { // swipe left
+        horzDelta = -1
+      } else if column > swipeFromColumn! { // swipe right
+        horzDelta = 1
+      } else if row < swipeFromRow! { // swipe down
+        vertDelta = -1
+      } else if row > swipeFromRow! { // swipe up
+        vertDelta = 1
+      }
+
+      if horzDelta != 0 || vertDelta != 0 {
+        trySwap(horizontal: horzDelta, vertical: vertDelta)
+
+        swipeFromColumn = nil
+      }
+    }
+  }
+
+  func trySwap(horizontal horzDelta: Int, vertical vertDelta: Int) {
+    let toColumn = swipeFromColumn! + horzDelta
+    let toRow = swipeFromRow! + vertDelta
+
+    guard toColumn >= 0 && toColumn < NumColumns else { return }
+    guard toRow >= 0 && toRow < NumRows else { return }
+
+    if let toCookie = level.cookieAt(column: toColumn, row: toRow),
+      let fromCookie = level.cookieAt(column: swipeFromColumn!, row: swipeFromRow!) {
+      print("*** swapping \(fromCookie) with \(toCookie)")
+    }
+  }
+
+  override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    swipeFromColumn = nil
+    swipeFromRow = nil
+  }
+
+  override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    touchesEnded(touches, with: event)
+  }
 }
