@@ -18,6 +18,16 @@ class GameViewController: UIViewController {
     return [.portrait, .portraitUpsideDown]
   }
 
+  func handleSwipe(swap: Swap) {
+    view.isUserInteractionEnabled = false
+
+    level.performSwap(swap: swap)
+
+    scene.animate(swap) {
+      self.view.isUserInteractionEnabled = true
+    }
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -30,9 +40,9 @@ class GameViewController: UIViewController {
     level = Level(filename: "Level_1")
     scene.level = level
     scene.addTiles()
+    scene.swipeHandler = handleSwipe
 
     skView.presentScene(scene)
-
     beginGame()
   }
 

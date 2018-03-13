@@ -3,6 +3,7 @@ import SpriteKit
 class GameScene: SKScene {
 
   var level: Level!
+  var swipeHandler: ((Swap) -> ())?
 
   let TileWidth: CGFloat = 32.0
   let TileHeight: CGFloat = 36.0
@@ -87,7 +88,7 @@ class GameScene: SKScene {
     let (success, column, row) = convertPoint(point: location)
 
     if success {
-      if let cookie = level.cookieAt(column: column, row: row) {
+      if (level.cookieAt(column: column, row: row) != nil) {
         swipeFromColumn = column
         swipeFromRow = row
       }
@@ -99,7 +100,7 @@ class GameScene: SKScene {
     guard let touch = touches.first else { return }
 
     let location = touch.location(in: cookiesLayer)
-    let (success, column, row) = convertPoint(point: location)
+    let (success, column, row) = convertPoint(point: location)	
     if success {
 
       var horzDelta = 0, vertDelta = 0
@@ -121,6 +122,24 @@ class GameScene: SKScene {
     }
   }
 
+  func animate(_ swap: Swap, completion: @escaping () -> ()) {
+    let spriteA = swap.cookieA.sprite!
+    let spriteB = swap.cookieB.sprite!
+
+    spriteA.zPosition = 100
+    spriteB.zPosition = 90
+
+    let duration: TimeInterval = 0.3
+
+    let moveA = SKAction.move(to: spriteB.position, duration: duration)
+    moveA.timingMode = .easeOut
+    spriteA.run(moveA, completion: completion)
+
+    let moveB = SKAction.move(to: spriteA.position, duration: duration)
+    moveB.timingMode = .easeOut
+    spriteB.run(moveB)
+  }
+
   func trySwap(horizontal horzDelta: Int, vertical vertDelta: Int) {
     let toColumn = swipeFromColumn! + horzDelta
     let toRow = swipeFromRow! + vertDelta
@@ -130,7 +149,10 @@ class GameScene: SKScene {
 
     if let toCookie = level.cookieAt(column: toColumn, row: toRow),
       let fromCookie = level.cookieAt(column: swipeFromColumn!, row: swipeFromRow!) {
-      print("*** swapping \(fromCookie) with \(toCookie)")
+      if let handler = swipeHandler {
+        let swap = Swap(cookieA: fromCookie, cookieB: toCookie)
+        handler(swap)
+      }
     }
   }
 
