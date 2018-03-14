@@ -7,6 +7,7 @@ class Level {
 
   fileprivate var cookies = Array2D<Cookie>(columns: NumColumns, rows: NumRows)
   private var tiles = Array2D<Tile>(columns: NumColumns, rows: NumRows)
+  private var possibleSwaps = Set<Swap>()
 
   func cookieAt(column: Int, row: Int) -> Cookie? {
     assert(column >= 0 && column < NumColumns)
@@ -15,13 +16,108 @@ class Level {
     return cookies[column, row]
   }
 
+  private func hasChainAt(column: Int, row: Int) -> Bool {
+    let cookieType = cookies[column, row]!.cookieType
+
+    // Horizontal chain check
+    var horzLength = 1
+
+    // Left
+    var i = column - 1
+    while i >= 0 && cookies[i, row]?.cookieType == cookieType {
+      i -= 1
+      horzLength += 1
+    }
+
+    // Right
+    i = column + 1
+    while i < NumColumns && cookies[i, row]?.cookieType == cookieType {
+      i += 1
+      horzLength += 1
+    }
+    if horzLength >= 3 { return true }
+
+    // Vertical chain check
+    var vertLength = 1
+
+    // Down
+    i = row - 1
+    while i >= 0 && cookies[column, i]?.cookieType == cookieType {
+      i -= 1
+      vertLength += 1
+    }
+
+    // Up
+    i = row + 1
+    while i < NumRows && cookies[column, i]?.cookieType == cookieType {
+      i += 1
+      vertLength += 1
+    }
+    return vertLength >= 3
+  }
+
   func shuffle() -> Set<Cookie> {
-    return createInitialCookies()
+    var set: Set<Cookie>
+    repeat {
+      set = createInitialCookies()
+      detectPossibleSwaps()
+      print("possible swaps: \(possibleSwaps)")
+    } while possibleSwaps.count == 0
+
+    return set
+  }
+
+  func detectPossibleSwaps() {
+    var set = Set<Swap>()
+
+    for row in 0..<NumRows {
+      for column in 0..<NumColumns {
+        if let cookie = cookies[column, row] {
+          if column < NumColumns - 1 {
+            // Have a cookie in this spot? If there is no tile, there is no cookie.
+            if let other = cookies[column + 1, row] {
+              // Swap them
+              cookies[column, row] = other
+              cookies[column + 1, row] = cookie
+
+              // Is either cookie now part of a chain?
+              if hasChainAt(column: column + 1, row: row) ||
+                hasChainAt(column: column, row: row) {
+                set.insert(Swap(cookieA: cookie, cookieB: other))
+              }
+
+              // Swap them back
+              cookies[column, row] = cookie
+              cookies[column + 1, row] = other
+            }
+          }
+          if row < NumRows - 1 {
+            if let other = cookies[column, row + 1] {
+              cookies[column, row] = other
+              cookies[column, row + 1] = cookie
+
+              // Is either cookie now part of a chain?
+              if hasChainAt(column: column, row: row + 1) ||
+                hasChainAt(column: column, row: row) {
+                set.insert(Swap(cookieA: cookie, cookieB: other))
+              }
+
+              // Swap them back
+              cookies[column, row] = cookie
+              cookies[column, row + 1] = other
+            }
+          }
+        }
+      }
+    }
+
+    possibleSwaps = set
   }
 
   func tileAt(column: Int, row: Int) -> Tile? {
     assert(column >= 0 && column < NumColumns)
     assert(row >= 0 && row < NumRows)
+
     return tiles[column, row]
   }
 
@@ -31,7 +127,16 @@ class Level {
     for row in 0..<NumRows {
       for column in 0..<NumColumns {
         if tiles[column, row] != nil {
-          let cookieType = CookieType.random()
+          var cookieType: CookieType
+
+          repeat {
+            cookieType = CookieType.random()
+          } while (column >= 2 &&
+            cookies[column - 1, row]?.cookieType == cookieType &&
+            cookies[column - 2, row]?.cookieType == cookieType)
+            || (row >= 2 &&
+              cookies[column, row - 1]?.cookieType == cookieType &&
+              cookies[column, row - 2]?.cookieType == cookieType)
 
           let cookie = Cookie(column: column, row: row, cookieType: cookieType)
           cookies[column, row] = cookie
