@@ -15,6 +15,12 @@ class GameScene: SKScene {
   private var swipeFromColumn: Int?
   private var swipeFromRow: Int?
 
+  let swapSound = SKAction.playSoundFileNamed("Chomp.wav", waitForCompletion: false)
+  let invalidSwapSound = SKAction.playSoundFileNamed("Error.wav", waitForCompletion: false)
+  let matchSound = SKAction.playSoundFileNamed("Ka-Ching.wav", waitForCompletion: false)
+  let fallingCookieSound = SKAction.playSoundFileNamed("Scrape.wav", waitForCompletion: false)
+  let addCookieSound = SKAction.playSoundFileNamed("Drip.wav", waitForCompletion: false)
+
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder) is not used in this app")
   }
@@ -55,6 +61,27 @@ class GameScene: SKScene {
         }
       }
     }
+  }
+
+  func animateInvalidSwap(_ swap: Swap, completion: @escaping () -> ()) {
+    let spriteA = swap.cookieA.sprite!
+    let spriteB = swap.cookieB.sprite!
+
+    spriteA.zPosition = 100
+    spriteB.zPosition = 90
+
+    let duration: TimeInterval = 0.2
+
+    let moveA = SKAction.move(to: spriteB.position, duration: duration)
+    moveA.timingMode = .easeOut
+
+    let moveB = SKAction.move(to: spriteA.position, duration: duration)
+    moveB.timingMode = .easeOut
+
+    spriteA.run(SKAction.sequence([moveA, moveB]), completion: completion)
+    spriteB.run(SKAction.sequence([moveB, moveA]))
+
+    run(invalidSwapSound)
   }
 
   func addSprites(for cookies: Set<Cookie>) {
@@ -140,6 +167,7 @@ class GameScene: SKScene {
     let moveB = SKAction.move(to: spriteA.position, duration: duration)
     moveB.timingMode = .easeOut
     spriteB.run(moveB)
+    run(swapSound)
   }
 
   func trySwap(horizontal horzDelta: Int, vertical vertDelta: Int) {

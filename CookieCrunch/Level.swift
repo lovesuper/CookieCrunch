@@ -114,6 +114,10 @@ class Level {
     possibleSwaps = set
   }
 
+  func isPossibleSwap(_ swap: Swap) -> Bool {
+    return possibleSwaps.contains(swap)
+  }
+
   func tileAt(column: Int, row: Int) -> Tile? {
     assert(column >= 0 && column < NumColumns)
     assert(row >= 0 && row < NumRows)
