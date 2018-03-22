@@ -18,6 +18,7 @@
 		676B369D2057D416006CF2B8 /* Level_1.json in Resources */ = {isa = PBXBuildFile; fileRef = 676B36982057D416006CF2B8 /* Level_1.json */; };
 		676B369F2057D580006CF2B8 /* Tile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676B369E2057D580006CF2B8 /* Tile.swift */; };
 		676B36A12057D7A8006CF2B8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676B36A02057D7A8006CF2B8 /* Extensions.swift */; };
+		67824153205E8D8400F06733 /* Chain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67824152205E8D8400F06733 /* Chain.swift */; };
 		67CBC587205A9A1D0022AA3C /* Scrape.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CBC581205A9A1D0022AA3C /* Scrape.wav */; };
 		67CBC588205A9A1D0022AA3C /* Ka-Ching.wav in Resources */ = {isa = PBXBuildFile; fileRef = 67CBC582205A9A1D0022AA3C /* Ka-Ching.wav */; };
 		67CBC589205A9A1D0022AA3C /* Mining by Moonlight.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 67CBC583205A9A1D0022AA3C /* Mining by Moonlight.mp3 */; };
@@ -45,6 +46,7 @@
 		676B36982057D416006CF2B8 /* Level_1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Level_1.json; sourceTree = "<group>"; };
 		676B369E2057D580006CF2B8 /* Tile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tile.swift; sourceTree = "<group>"; };
 		676B36A02057D7A8006CF2B8 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		67824152205E8D8400F06733 /* Chain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chain.swift; sourceTree = "<group>"; };
 		67CBC581205A9A1D0022AA3C /* Scrape.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Scrape.wav; sourceTree = "<group>"; };
 		67CBC582205A9A1D0022AA3C /* Ka-Ching.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Ka-Ching.wav"; sourceTree = "<group>"; };
 		67CBC583205A9A1D0022AA3C /* Mining by Moonlight.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Mining by Moonlight.mp3"; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				675564652056885400EC0C79 /* Array2D.swift */,
 				67556463205675CD00EC0C79 /* Cookie.swift */,
 				676B36A02057D7A8006CF2B8 /* Extensions.swift */,
+				67824152205E8D8400F06733 /* Chain.swift */,
 				67CBC580205A9A1D0022AA3C /* Sounds */,
 				67E8F817204FF33C00BEEE36 /* GameScene.swift */,
 				67E8F819204FF33C00BEEE36 /* GameViewController.swift */,
@@ -226,6 +229,7 @@
 				67556464205675CD00EC0C79 /* Cookie.swift in Sources */,
 				676B36A12057D7A8006CF2B8 /* Extensions.swift in Sources */,
 				676B369F2057D580006CF2B8 /* Tile.swift in Sources */,
+				67824153205E8D8400F06733 /* Chain.swift in Sources */,
 				67E8F81A204FF33C00BEEE36 /* GameViewController.swift in Sources */,
 				67E8F812204FF33C00BEEE36 /* AppDelegate.swift in Sources */,
 				675564662056885400EC0C79 /* Array2D.swift in Sources */,
