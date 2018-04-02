@@ -32,6 +32,7 @@
 		67E8F81F204FF33C00BEEE36 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67E8F81E204FF33C00BEEE36 /* Assets.xcassets */; };
 		67E8F822204FF33C00BEEE36 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67E8F820204FF33C00BEEE36 /* LaunchScreen.storyboard */; };
 		67E8F82A204FF3DA00BEEE36 /* Sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 67E8F829204FF3DA00BEEE36 /* Sprites.atlas */; };
+		67EB7AF2207222AC00225505 /* Grid.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 67EB7AF1207222AC00225505 /* Grid.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		67E8F821204FF33C00BEEE36 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		67E8F823204FF33C00BEEE36 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		67E8F829204FF3DA00BEEE36 /* Sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Sprites.atlas; sourceTree = "<group>"; };
+		67EB7AF1207222AC00225505 /* Grid.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Grid.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 				67824152205E8D8400F06733 /* Chain.swift */,
 				67CBC580205A9A1D0022AA3C /* Sounds */,
 				67E8F817204FF33C00BEEE36 /* GameScene.swift */,
+				67EB7AF1207222AC00225505 /* Grid.atlas */,
 				67E8F819204FF33C00BEEE36 /* GameViewController.swift */,
 				6755646720568C2B00EC0C79 /* Level.swift */,
 				6754DE43205811DF002E8C3E /* Swap.swift */,
@@ -167,7 +170,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = Lovesuper;
 				TargetAttributes = {
 					67E8F80D204FF33C00BEEE36 = {
@@ -202,6 +205,7 @@
 				67CBC587205A9A1D0022AA3C /* Scrape.wav in Resources */,
 				67CBC58A205A9A1D0022AA3C /* Drip.wav in Resources */,
 				67E8F82A204FF3DA00BEEE36 /* Sprites.atlas in Resources */,
+				67EB7AF2207222AC00225505 /* Grid.atlas in Resources */,
 				676B369D2057D416006CF2B8 /* Level_1.json in Resources */,
 				676B36992057D416006CF2B8 /* Level_2.json in Resources */,
 				67E8F81D204FF33C00BEEE36 /* Main.storyboard in Resources */,
@@ -273,6 +277,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -280,6 +285,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -330,6 +336,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -337,6 +344,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

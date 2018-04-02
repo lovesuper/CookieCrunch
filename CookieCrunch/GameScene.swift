@@ -6,6 +6,8 @@ class GameScene: SKScene {
   var swipeHandler: ((Swap) -> ())?
   var selectionSprite = SKSpriteNode()
 
+  let cropLayer = SKCropNode()
+  let maskLayer = SKNode()
   let TileWidth: CGFloat = 32.0
   let TileHeight: CGFloat = 36.0
   let gameLayer = SKNode()
@@ -25,6 +27,20 @@ class GameScene: SKScene {
     fatalError("init(coder) is not used in this app")
   }
 
+  func animateGameOver(_ completion: @escaping () -> ()) {
+    let action = SKAction.move(by: CGVector(dx: 0, dy: -size.height), duration: 0.3)
+    action.timingMode = .easeIn
+    gameLayer.run(action, completion: completion)
+  }
+
+  func animateBeginGame(_ completion: @escaping () -> ()) {
+    gameLayer.isHidden = false
+    gameLayer.position = CGPoint(x: 0, y: size.height)
+    let action = SKAction.move(by: CGVector(dx: 0, dy: -size.height), duration: 0.3)
+    action.timingMode = .easeOut
+    gameLayer.run(action, completion: completion)
+  }
+
   override init(size: CGSize) {
     super.init(size: size)
 
@@ -36,6 +52,8 @@ class GameScene: SKScene {
     addChild(background)
     addChild(gameLayer)
 
+    gameLayer.isHidden = true
+
     let layerPosition = CGPoint(
       x: -TileWidth * CGFloat(NumColumns) / 2,
       y: -TileHeight * CGFloat(NumRows) / 2)
@@ -43,20 +61,61 @@ class GameScene: SKScene {
     tilesLayer.position = layerPosition
     gameLayer.addChild(tilesLayer)
 
+    gameLayer.addChild(cropLayer)
+
+    maskLayer.position = layerPosition
+    cropLayer.maskNode = maskLayer
+
     cookiesLayer.position = layerPosition
-    gameLayer.addChild(cookiesLayer)
+    cropLayer.addChild(cookiesLayer)
 
     swipeFromColumn = nil
     swipeFromRow = nil
+//    cropLayer.addChild(maskLayer)
+    let _ = SKLabelNode(fontNamed: "GillSans-BoldItalic")
   }
 
   func addTiles() {
     for row in 0..<NumRows {
       for column in 0..<NumColumns {
         if level.tileAt(column: column, row: row) != nil {
-          let tileNode = SKSpriteNode(imageNamed: "Tile")
+          let tileNode = SKSpriteNode(imageNamed: "MaskTile")
           tileNode.size = CGSize(width: TileWidth, height: TileHeight)
           tileNode.position = pointFor(column: column, row: row)
+          maskLayer.addChild(tileNode)
+        }
+      }
+    }
+
+    for row in 0...NumRows {
+      for column in 0...NumColumns {
+        let topLeft     = (column > 0) && (row < NumRows)
+          && level.tileAt(column: column - 1, row: row) != nil
+        let bottomLeft  = (column > 0) && (row > 0)
+          && level.tileAt(column: column - 1, row: row - 1) != nil
+        let topRight    = (column < NumColumns) && (row < NumRows)
+          && level.tileAt(column: column, row: row) != nil
+        let bottomRight = (column < NumColumns) && (row > 0)
+          && level.tileAt(column: column, row: row - 1) != nil
+
+        // The tiles are named from 0 to 15, according to the bitmask that is
+        // made by combining these four values.
+        let value0 =
+          Int(topLeft.hashValue) |
+            Int(topRight.hashValue) << 1
+
+        let value = value0 | Int(bottomLeft.hashValue) << 2 |
+            Int(bottomRight.hashValue) << 3
+
+        // Values 0 (no tiles), 6 and 9 (two opposite tiles) are not drawn.
+        if value != 0 && value != 6 && value != 9 {
+          let name = String(format: "Tile_%ld", value)
+          let tileNode = SKSpriteNode(imageNamed: name)
+          tileNode.size = CGSize(width: TileWidth, height: TileHeight)
+          var point = pointFor(column: column, row: row)
+          point.x -= TileWidth/2
+          point.y -= TileHeight/2
+          tileNode.position = point
           tilesLayer.addChild(tileNode)
         }
       }
@@ -118,6 +177,7 @@ class GameScene: SKScene {
 
   func animateMatchedCookies(for chains: Set<Chain>, completion: @escaping () -> ()) {
     for chain in chains {
+      animateScore(for: chain)
       for cookie in chain.cookies {
         if let sprite = cookie.sprite {
           if sprite.action(forKey: "removing") == nil {
@@ -153,6 +213,25 @@ class GameScene: SKScene {
     run(invalidSwapSound)
   }
 
+  func animateScore(for chain: Chain) {
+    let firstSprite = chain.firstCookie().sprite!
+    let lastSprite = chain.lastCookie().sprite!
+    let centerPosition = CGPoint(
+      x: (firstSprite.position.x + lastSprite.position.x)/2,
+      y: (firstSprite.position.y + lastSprite.position.y)/2 - 8)
+
+    let scoreLabel = SKLabelNode(fontNamed: "GillSans-BoldItalic")
+    scoreLabel.fontSize = 16
+    scoreLabel.text = String(format: "%ld", chain.score)
+    scoreLabel.position = centerPosition
+    scoreLabel.zPosition = 300
+    cookiesLayer.addChild(scoreLabel)
+
+    let moveAction = SKAction.move(by: CGVector(dx: 0, dy: 3), duration: 0.7)
+    moveAction.timingMode = .easeOut
+    scoreLabel.run(SKAction.sequence([moveAction, SKAction.removeFromParent()]))
+  }
+
   func addSprites(for cookies: Set<Cookie>) {
     for cookie in cookies {
       let sprite = SKSpriteNode(imageNamed: cookie.cookieType.spriteName)
@@ -160,7 +239,24 @@ class GameScene: SKScene {
       sprite.position = pointFor(column: cookie.column, row: cookie.row)
       cookiesLayer.addChild(sprite)
       cookie.sprite = sprite
+
+      sprite.alpha = 0
+      sprite.xScale = 0.5
+      sprite.yScale = 0.5
+
+      sprite.run(
+        SKAction.sequence([
+          SKAction.wait(forDuration: 0.25, withRange: 0.5),
+          SKAction.group([
+            SKAction.fadeIn(withDuration: 0.25),
+            SKAction.scale(to: 1.0, duration: 0.25)
+            ])
+          ]))
     }
+  }
+
+  func removeAllCookieSprites() {
+    cookiesLayer.removeAllChildren()
   }
 
   func pointFor(column: Int, row: Int) -> CGPoint {

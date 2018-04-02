@@ -7,7 +7,7 @@ extension Dictionary {
     var dictionaryOK: NSDictionary = NSDictionary()
     if let path = Bundle.main.path(forResource: filename, ofType: "json") {
       do {
-        let data = try Data(contentsOf: URL(fileURLWithPath: path), options: NSData.ReadingOptions()) as Data!
+        let data = try Data(contentsOf: URL(fileURLWithPath: path), options: NSData.ReadingOptions()) as Data?
         dataOK = data!
       }
       catch {
@@ -16,7 +16,7 @@ extension Dictionary {
         return nil
       }
       do {
-        let dictionary = try JSONSerialization.jsonObject(with: dataOK, options: JSONSerialization.ReadingOptions()) as AnyObject!
+        let dictionary = try JSONSerialization.jsonObject(with: dataOK, options: JSONSerialization.ReadingOptions()) as AnyObject?
         dictionaryOK = (dictionary as! NSDictionary as? Dictionary<String, AnyObject>)! as NSDictionary
       }
       catch {

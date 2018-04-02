@@ -13,6 +13,8 @@ class Chain: Hashable, CustomStringConvertible {
     }
   }
 
+  var score = 0
+
   var chainType: ChainType
 
   init(chainType: ChainType) {

@@ -2,12 +2,17 @@ import Foundation
 
 let NumColumns = 9
 let NumRows = 9
+let NumLevels = 4
 
 class Level {
+
+  var targetScore = 0
+  var maximumMoves = 0
 
   fileprivate var cookies = Array2D<Cookie>(columns: NumColumns, rows: NumRows)
   private var tiles = Array2D<Tile>(columns: NumColumns, rows: NumRows)
   private var possibleSwaps = Set<Swap>()
+  private var comboMultiplier = 0
 
   func cookieAt(column: Int, row: Int) -> Cookie? {
     assert(column >= 0 && column < NumColumns)
@@ -61,7 +66,7 @@ class Level {
     repeat {
       set = createInitialCookies()
       detectPossibleSwaps()
-      print("possible swaps: \(possibleSwaps)")
+//      print("possible swaps: \(possibleSwaps)")
     } while possibleSwaps.count == 0
 
     return set
@@ -189,7 +194,14 @@ class Level {
     removeCookies(chains: horizontalChains)
     removeCookies(chains: verticalChains)
 
+    calculateScores(for: horizontalChains)
+    calculateScores(for: verticalChains)
+
     return horizontalChains.union(verticalChains)
+  }
+
+  func resetComboMultiplier() {
+    comboMultiplier = 1
   }
 
   private func removeCookies(chains: Set<Chain>) {
@@ -197,6 +209,13 @@ class Level {
       for cookie in chain.cookies {
         cookies[cookie.column, cookie.row] = nil
       }
+    }
+  }
+
+  private func calculateScores(for chains: Set<Chain>) {
+    for chain in chains {
+      chain.score = 60 * (chain.length - 2) * comboMultiplier
+      comboMultiplier += 1
     }
   }
 
@@ -306,5 +325,7 @@ class Level {
         }
       }
     }
+    targetScore = dictionary["targetScore"] as! Int
+    maximumMoves = dictionary["moves"] as! Int
   }
 }
